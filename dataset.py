@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import streamlit as st
 import openai
 import pickle
@@ -5,8 +6,8 @@ import os
 import time
 import json
 from streamlit import session_state 
-os.environ['http_proxy'] = 'http://127.0.0.1:7890'
-os.environ["https_proxy"] = "http://127.0.0.1:7890"
+# os.environ['http_proxy'] = 'http://127.0.0.1:7890'
+# os.environ["https_proxy"] = "http://127.0.0.1:7890"
 #streamlit run dataset.py --server.port 2323
 st.set_page_config(
     page_title='问答数据集生成器',
@@ -70,7 +71,7 @@ def save_answers(temp_answers,just_read=False):
         return True
 def save_answers_as_json(answers, file_path):
     data = []
-    #print("answers",answers)
+    print("save_answers_as_json answers",answers)
     if 0:
         for question, answer in answers.items():#根据情况修改输出格式
             item = {
@@ -97,8 +98,13 @@ def main():
     st.title("问答数据集生成器")
     openai.api_key=st.sidebar.text_input("api_key", value='',type="password")
     PROMPT=st.sidebar.text_input("提示词", value= "请给出以下问题的答案：")
-    if 'temp_answers' not in session_state:
-        session_state.temp_answers={}
+    # import ipdb;ipdb.set_trace()
+    # keys = [k for k in session_state.keys()]
+    # print("session keys", keys)
+    # if 'temp_answers' not in keys:
+    #     print ("temp_answers not in keys")
+    #     session_state.temp_answers={}
+    session_state.temp_answers={}
     if 'all_answers' not in session_state:
         save_answers(session_state.temp_answers,just_read=True)
         session_state.question_txt="questions.txt"
